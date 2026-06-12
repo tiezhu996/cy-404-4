@@ -26,20 +26,16 @@ export function ResumeEditor() {
   const resume = useMemo(() => resumes.find((item) => item.id === id), [id, resumes]);
 
   useEffect(() => {
-    if (!resume && id) {
+    if (resume) {
+      setActiveResume(resume.id);
+    } else if (id) {
       navigate('/resumes', { replace: true });
     }
-  }, [resume, id, navigate]);
+  }, [resume, id, navigate, setActiveResume]);
 
   if (!resume) {
     return null;
   }
-
-  useEffect(() => {
-    if (resume) {
-      setActiveResume(resume.id);
-    }
-  }, [resume, setActiveResume]);
 
   const handleSorted = (sections: ResumeSection[]) => {
     reorderSections(
