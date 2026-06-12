@@ -13,7 +13,7 @@ export const A4Preview = forwardRef<HTMLDivElement, A4PreviewProps>(({ resume, m
     <div
       ref={ref}
       className="aspect-[210/297] w-full overflow-hidden bg-white shadow-panel"
-      style={{ padding: `${fontSize}mm` }}
+      style={{ padding: `${margin}mm` }}
     >
       <ResumePreview resume={resume} fontSize={fontSize} />
     </div>

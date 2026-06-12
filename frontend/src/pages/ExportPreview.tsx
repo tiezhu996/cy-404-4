@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { EmptyState } from '../components/common/EmptyState';
 import { A4Preview } from '../components/preview/A4Preview';
@@ -10,14 +10,21 @@ import { useResumeStore } from '../stores/resume';
 
 export function ExportPreview() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const previewRef = useRef<HTMLDivElement | null>(null);
   const resume = useResumeStore((state) => state.resumes.find((item) => item.id === id));
   const [margin, setMargin] = useLocalStorage('smart-resume:export-margin', 14);
   const [fontSize, setFontSize] = useLocalStorage('smart-resume:export-font-size', 12);
   const { exportPdf, isExporting, error } = useExportPdf(previewRef);
 
+  useEffect(() => {
+    if (!resume && id) {
+      navigate('/resumes', { replace: true });
+    }
+  }, [resume, id, navigate]);
+
   if (!resume) {
-    return <EmptyState title="无法导出" description="没有找到这份简历，可能已被删除。" />;
+    return null;
   }
 
   return (

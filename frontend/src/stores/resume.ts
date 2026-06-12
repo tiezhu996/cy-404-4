@@ -155,7 +155,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     set((state) => {
       const nextResumes = state.resumes.filter((resume) => resume.id !== resumeId);
       const activeResumeId =
-        state.activeResumeId === resumeId ? state.activeResumeId : nextResumes[0]?.id ?? null;
+        state.activeResumeId === resumeId ? nextResumes[0]?.id ?? null : state.activeResumeId;
       return { resumes: nextResumes, activeResumeId };
     });
     persist(get());

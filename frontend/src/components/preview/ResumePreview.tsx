@@ -121,7 +121,7 @@ export function ResumePreview({ resume, template = getTemplateById(resume.templa
                       </p>
                     </div>
                     <div className="h-2 w-24 bg-black/10">
-                      <div className="h-full" style={{ width: `${skill.proficiency * 10}%`, backgroundColor: template.accent }} />
+                      <div className="h-full" style={{ width: `${skill.proficiency * 20}%`, backgroundColor: template.accent }} />
                     </div>
                   </div>
                 ))}

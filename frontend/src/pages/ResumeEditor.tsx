@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Download, LayoutTemplate, UserRound } from 'lucide-react';
 import { BasicInfoPanel } from '../components/editor/BasicInfoPanel';
 import { ModuleSidebar } from '../components/editor/ModuleSidebar';
@@ -14,6 +14,7 @@ import { ResumeSection, ResumeSectionType } from '../types/resume';
 
 export function ResumeEditor() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [activeSectionId, setActiveSectionId] = useState<ResumeSectionType>('summary');
   const resumes = useResumeStore((state) => state.resumes);
   const updateResume = useResumeStore((state) => state.updateResume);
@@ -24,15 +25,14 @@ export function ResumeEditor() {
   const profile = useProfileStore((state) => state.profile);
   const resume = useMemo(() => resumes.find((item) => item.id === id), [id, resumes]);
 
+  useEffect(() => {
+    if (!resume && id) {
+      navigate('/resumes', { replace: true });
+    }
+  }, [resume, id, navigate]);
+
   if (!resume) {
-    return (
-      <EmptyState
-        description="该简历可能已经被删除，返回列表后可以创建或导入新的版本。"
-        title="没有找到这份简历"
-        actionLabel="回到列表"
-        onAction={() => window.history.back()}
-      />
-    );
+    return null;
   }
 
   useEffect(() => {
